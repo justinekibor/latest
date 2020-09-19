@@ -139,6 +139,41 @@
                         <li><a href="<?php echo base_url('tenant/complaint/complaints') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">View complaints</span></a></li>
                       </ul>
                     </li> 
+                <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Payment <span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">1</span></span></a>
+                        <ul class="nav nav-second-level">
+                        <li><a href="<?php echo base_url('tenant/payment/payments') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">My Payments</span></a></li>
+                      </ul>
+                    </li> 
+                     <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Tenancy <span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">2</span></span></a>
+                        <ul class="nav nav-second-level">
+                        <?php
+                        $id= $this->session->userdata('id');
+                        $vacated= $this->common_model->get_vacated_tenant($id); 
+                        if($vacated){
+                        ?>
+                             <li> <a href="<?php echo base_url('vacate/download/'.$id) ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Download Vacation request</span></a></li>
+                        <li><a href="<?php echo base_url('tenant/tenancy/agreement') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">Tenancy Agreement</span></a></li>
+                        <?php
+
+                    }
+                    else{
+                        ?>
+         <li> <a href="<?php echo base_url('tenant/tenancy') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Vacation Request</span></a></li>
+         <li><a href="<?php echo base_url('tenant/tenancy/agreement') ?>"><i class="fa fa-list p-r-10"></i>
+
+            <span class="hide-menu">Tenancy Agreement</span></a></li>
+            <?php
+        }
+        ?>
+     </ul>
+   </li> 
+     <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Testimonial <span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">2</span></span></a>
+                        <ul class="nav nav-second-level">
+                             <li> <a href="<?php echo base_url('tenant/testimony') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Testify</span></a></li>
+                        <li><a href="<?php echo base_url('tenant/testimony/testimonies') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">My testimonies</span></a></li>
+                      </ul>
+                    </li> 
+
 
 	                   <li><a href="<?php echo base_url('auth/logout') ?>" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
                 </ul>

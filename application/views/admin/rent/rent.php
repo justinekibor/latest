@@ -6,7 +6,7 @@
                         <div class="white-box">
                             <h3 class="box-title"> 
                                 <div class="panel-heading"> 
-                     <i class="fa fa-plus"></i> &nbsp;Register New Room<a href="<?php echo base_url('admin/rooms/all_room_list') ?>" class="btn btn-info btn-sm pull-right"><i class="fa fa-list"></i> List rooms </a>
+                     <i class="fa fa-plus"></i> &nbsp;Rent Collection<a href="<?php echo base_url('admin/rent') ?>" class="btn btn-info btn-sm pull-right"><i class="fa fa-list"></i> Collect </a>
 
                 </div>
                            <?php $msg = $this->session->flashdata('msg'); ?>
@@ -23,7 +23,6 @@
                             <!-- Nav tabs -->
                             <ul class="nav customtab nav-tabs" role="tablist">
                                 <li role="presentation" class="nav-item"><a href="#home1" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs">Payment collection</span></a></li>
-                                <li role="presentation" class="nav-item"><a href="#profile1" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Check For Rent balances</span></a></li>
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
@@ -148,79 +147,7 @@
                                 </div>
                         
                         
-                                <div role="tabpanel" class="tab-pane fade" id="profile1">
-                                          <form name="bill" action="<?php echo base_url('admin/rooms/billHouse') ?>" method="POST" id="bill">
-                                          <div class="form-group">
-                                        <label class="col-md-12" for="example-text">Plot</label> 
-                                          <div class="col-sm-12">
-                                                <select id="plot1" class="form-control custom-select" name="plot" value="<?php echo set_value('plot'); ?>" aria-invalid="false">
-                                                    <option value="" >Select</option>
-                                                    <?php foreach ($plots as $cn): ?>
-                                                        <option  value="<?php echo $cn['plot_id']; ?>"><?php echo $cn['plot_name']; ?></option>
-                                                    <?php endforeach ?>
-                                                </select> 
-                                            </div>
-                                            <span class="text-danger"><?php echo form_error('plot'); ?></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Houses</label>
-                                            <select class="form-control" id="houses"  name="houses" required="">
-                                            <option value="">non selected</option>
-                                            </select>
-                                            <div>
-                                                <span class="text-danger"><?php echo form_error('houses'); ?></span>
-                                            </div>
-                                        </div>
-                                             <div class="form-group">
-                                            <label>Floor</label>
-                                            <select class="form-control" id="f" disabled name="floor" required="">
-                                            <option>non selected</option>
-                                            </select>
-                                             <span class="text-danger"><?php echo form_error('rent'); ?></span>
-                                        </div>
-                                              <div class="form-group">
-                                            <label>Type</label>
-                                            <select class="form-control" id="t" disabled name="types" required="">
-                                            <option>non selected</option>
-                                            </select>
-                                             <span class="text-danger"><?php echo form_error('rent'); ?></span>
-                                        </div>
-                                        <div class="form-group"> 
-                                  <label class="col-md-12" for="example-text">Rent</label>
-                                    <div class="col-sm-12">
-                                            <input type="number" id="rent" name="rent" value="<?php echo set_value('rent'); ?>" class="form-control" autocomplete="off">
-                                        </div>
-                                        <span class="text-danger"><?php echo form_error('rent'); ?></span>
-                                    </div>
-                                
-                                 <div class="col-sm-offset-3 col-sm-5">
-                                <button type="submit" class="btn btn-info btn-rounded btn-sm"> <i class="fa fa-plus"></i>&nbsp;&nbsp;Save</button>
-                            </div>
-
-                                    </form>
-                                    
-                                   
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="messages1">
-                                    <div class="col-md-6">
-                                        <h3>Come on you have a lot message</h3>
-                                        <h4>you can use it with the small code</h4>
-                                    </div>
-                                    <div class="col-md-5 pull-right">
-                                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="settings1">
-                                    <div class="col-md-6">
-                                        <h3>Just do Settings</h3>
-                                        <h4>you can use it with the small code</h4>
-                                    </div>
-                                    <div class="col-md-5 pull-right">
-                                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
+ 
                             </div>
                         </div>
                     </div>

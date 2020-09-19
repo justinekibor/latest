@@ -140,6 +140,11 @@ class Rooms extends CI_Controller {
         $data= $this->common_model->get_bills($house_id)->result();
         echo  json_encode($data);
     }
+        public function tenant(){
+        $tenant_id = $this->input->post('tenant_id', TRUE);
+        $data= $this->common_model->get_billing_tenant($tenant_id)->result();
+        echo  json_encode($data);
+    }
     public function billHouse(){
         $id= $_POST['houses'];
          $this->load->library('form_validation');

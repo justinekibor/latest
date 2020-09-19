@@ -12,7 +12,7 @@
 			
             </div>
             <!-- /.container-fluid -->
-           <?php include 'layout/footer.php'; ?>
+           <?php// include 'layout/footer.php'; ?>
         </div>
         <!-- /#page-wrapper -->
     </div>

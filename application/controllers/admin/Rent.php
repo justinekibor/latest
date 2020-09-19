@@ -10,10 +10,10 @@ class Rent extends CI_Controller {
     }
 
 
-    public function index()
+    public function index() 
     {
                 $data = array();
-        $data['page_title'] = 'Tabs';
+        $data['page_title'] = 'Rent collection';
         $data['plots'] = $this->common_model->get_all_objects('plots', "plot_id");
         $data['balance'] = $this->common_model->get_all_objects('balances', "balance_id");
          $data['notification'] = $this->common_model->get_notification();
@@ -32,6 +32,7 @@ class Rent extends CI_Controller {
                     $this->form_validation->set_rules('mode', 'Mode', 'required|trim');
                     $this->form_validation->set_rules('year', 'Year', 'required|trim');
                     $this->form_validation->set_rules('month', 'Month', 'required|trim');
+                    $this->form_validation->set_rules('code', 'Transaction Code', 'required|min_length[9]|max_length[12]|trim');
                     $this->form_validation->set_rules('amount', 'amount', 'required|numeric|trim');
 
                     
@@ -229,15 +230,6 @@ class Rent extends CI_Controller {
             $this->index();
         }
     }
-    public function all_room_list()
-    {
-        $data['page_title'] = 'All Registered rooms';
-        $data['rooms'] = $this->common_model->get_all_objects('houses','house_id');
-       // $data['country'] = $this->common_model->select('country');
-      //  $data['count'] = $this->common_model->get_user_total();
-        $data['main_content'] = $this->load->view('admin/rooms/rooms', $data, TRUE);
-        $this->load->view('admin/index', $data);
-    }
         public function payments()
     {
         $data['page_title'] = 'All payment List';
@@ -247,6 +239,16 @@ class Rent extends CI_Controller {
         $data['main_content'] = $this->load->view('admin/rent/payments', $data, TRUE);
         $this->load->view('admin/index', $data);
     }
+            public function pendings()
+    {
+        $data['page_title'] = 'All pending payments';
+        $data['payments'] = $this->common_model->get_all_pendings('payments','payment_id');
+       // $data['country'] = $this->common_model->select('country');
+      //  $data['count'] = $this->common_model->get_user_total();
+        $data['main_content'] = $this->load->view('admin/rent/pendings', $data, TRUE);
+        $this->load->view('admin/index', $data);
+    }
+ 
 
 
     //-- view payment invoice
@@ -261,17 +263,7 @@ class Rent extends CI_Controller {
 
         }
  
-   
-
-    
-    //-- delete room
-    public function delete($id)
-    {
-        $this->common_model->delete($id,'houses', 'house_id'); 
-        $this->session->set_flashdata('msg', 'Room deleted Successfully');
-        redirect(base_url('admin/rooms/all_room_list'));
-    }
-    public function fetch_type(){
+       public function fetch_type(){
         $plot_id = $this->input->post('plot_id', TRUE);
         $data= $this->common_model->get_houses($plot_id)->result();
         echo  json_encode($data);

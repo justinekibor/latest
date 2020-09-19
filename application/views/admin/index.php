@@ -164,8 +164,8 @@
                     <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Accounting Finance<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
                              <li> <a href="<?php echo base_url('admin/rent/payments') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Payment Collection</span></a></li>
-                             <li> <a href="<?php echo base_url('admin/user') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Pending Rent</span></a></li>
-                             <li> <a href="<?php echo base_url('admin/user') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Expenses</span></a></li>
+                             <li> <a href="<?php echo base_url('admin/rent/pendings') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Pending Rent</span></a></li>
+                             <li> <a href="<?php echo base_url('admin/expenses') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Expenses</span></a></li>
                              <li> <a href="<?php echo base_url('admin/user') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Balance sheet</span></a></li>
                              <li> <a href="<?php echo base_url('admin/dashboard/backup') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Test</span></a></li>
                       </ul>
@@ -177,7 +177,11 @@
                              <li> <a href="<?php echo base_url('admin/communication') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">System</span></a></li>
                       </ul>
                     </li>
-
+        <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Testimonial<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">1</span></span></a>
+        <ul class="nav nav-second-level">
+         <li> <a href="<?php echo base_url('admin/testimony') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Testimonies</span></a></li>
+                      </ul>
+                    </li>
 
 
 					

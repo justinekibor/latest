@@ -55,9 +55,17 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
                     </div>
             <?php endif ?>
+            <!------ reset msg----------->
+                <?php $reset_msg = $this->session->flashdata('reset_msg'); ?>
+            <?php if (isset($reset_msg)): ?>
+            <div class="alert alert-success hide_msg pull" style="width: 100%"> <i class="fa fa-check-circle"></i><?php echo $reset_msg;?> &nbsp;
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                    </div>
+            <?php endif ?>
+            <!---------------->
                     </div>
 		<br><br>
-						<form class="form-horizontal form-material" id="login-form" action="<?php echo base_url('auth/log'); ?>" method="post"> 
+						<form class="form-horizontal form-material" id="loginform" action="<?php echo base_url('auth/log'); ?>" method="post"> 
 
 					<div class="form-group">
                                    
@@ -79,21 +87,53 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
 Login
 </button>
 <div align="center"><img id="install_progress" src="<?php echo base_url() ?>leasehouse/images/loading.gif" style="margin-left: 20px;  display: none"/></div>
+ <a href="javascript:void(0)" id="to-recover" class="text-blue pull-right"><i class="fa fa-lock m-r-7"></i> Forgot password?</a> </div>
 
                         </div>
 						<br><br><br><br><br><br><br><br><br>
                     </div>
 					
+               
                  </form>
-        			
+                		
             </div>
         </div>
-		
+    </div>
+</section>
+               
+       
+        <form class="form-horizontal" id="recoverform" action="<?php echo base_url('auth/reset');?>" method="post"> 
+                    <div class="login-box login-sidebar">
+             <div align="center">
+               
+                <img  width="100" height="100" src="<?php echo base_url(); ?>leasehouse/logo.png">
+                    <br><br>
+                    Welcome to<br> <strong style="color:green">LeaseHouse</strong>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <h3>Recover Password</h3>
+                            <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <input name="email" class="form-control" type="text" required="" type="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+        
+   
 		
 		
 		
 
-    </section>
+  
 	
 
 <!-- jQuery -->

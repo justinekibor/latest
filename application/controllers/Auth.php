@@ -25,6 +25,7 @@ class Auth extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('login_model');
+          $this->load->model('common_model');
     }
  
 
@@ -97,6 +98,11 @@ class Auth extends CI_Controller {
                     $url = base_url('tenant/dashboard');
                     $link = "tenant";
                 } 
+                     else if($row->userRole == 'expert'){
+                    $this->session->set_userdata($data);
+                    $url = base_url('expert');
+                    $link = "language";
+                } 
             }
 
                 }
@@ -125,5 +131,100 @@ class Auth extends CI_Controller {
         $data['page'] = 'logout';
         $this->load->view('admin/login', $data);
     }
+            public function signup(){
+                        $data = array();
+        $data['page_title'] = 'EXpert System';
+      $data['main_content'] =$this->load->view('expert/signup', $data, TRUE);
+        $this->load->view('expert/index', $data);
+    }
+    public function reset(){
+        $email = $_POST['email'];
+        $query = $this->common_model->very_normal_person($email);
+        if($query){
+            $reset_key= md5(rand());
+            $data = array(
+                'password_reset_key' =>  $reset_key,
+                'password_reset_expiry' => current_datetime()
+            );
+        $data = $this->security->xss_clean($data);
+         $this->common_model->edit_option($data, $email, 'users','email');
+         $link= base_url()."auth/change/".$reset_key;
+         $from = $this->config->item('smtp_user');
+        $to =$email;
+        $subject = "LeaseHouse Password reset Link";
+      //  $message = $this->input->post('message');
+        $config = Array(
+  'protocol' => 'smtp',
+  'smtp_host' => 'ssl://smtp.googlemail.com',
+  'smtp_port' => 465,
+  'smtp_user' => 'justinekibor98@gmail.com', // change it to yours
+  'smtp_pass' => 'kaplos4514', // change it to yours
+  'mailtype' => 'html',
+  'charset' => 'iso-8859-1',
+  'wordwrap' => TRUE
+);
+
+        $message = '<a href="'.$link.'">Click here to reset password</a>';
+        $this->load->library('email', $config);
+      $this->email->set_newline("\r\n");
+      $this->email->from('justinekibor98@gmail.com'); // change it to yours
+      $this->email->to($to);// change it to yours
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send())
+     {
+      echo 'Email sent.';
+     }
+     else
+    {
+     $error_msg = $this->email->print_debugger();
+      $this->session->set_flashdata('error_msg', $error_msg);
+     redirect(base_url('auth'));
+    }
+
+                   
+        }
+        else{
+     $this->session->set_flashdata('error_msg', 'User does not exist, kindly check your mail again');
+     redirect(base_url('auth'));
+
+        }
+
+
+
+    }
+    public function change(){
+       $data = array();
+        $data['page'] = 'Auth';
+        $data['key'] = $this->uri->segment(3);
+        $this->load->view('admin/recover', $data);
+
+    }
+    public function changing(){
+        $verification_key = $this->uri->segment(3);
+         $cpassword = $_POST['cpassword'];
+         $password = $_POST['password'];
+         if($cpassword != $password){
+     $this->session->set_flashdata('error_msg', "Passwords do not change");
+     redirect(base_url('auth/change'));
+
+         }
+         else{
+            $password= ($password);
+            $data = array(
+                'password' => $password,
+            );
+        $data = $this->security->xss_clean($data);
+         $this->common_model->edit_option($data, $verification_key, 'users','password_reset_key');
+          $this->session->set_flashdata('reset_msg', "Successfully changed your password");
+     redirect(base_url('auth'));
+        
+
+         }
+    }
+    public function vacate(){
+        
+    }
+
 
 }

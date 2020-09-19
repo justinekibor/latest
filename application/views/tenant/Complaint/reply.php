@@ -43,7 +43,7 @@
                                         }
                                              elseif ($msg['replying_id'] != $this->session->userdata('id')) {?>
                                                  <br/>
-                                                 <span style="background: blue; color: white"  class="media-meta pull-right"><?php echo $msg['reply'];?></span>
+                                                 <span style="background: grey; color: white"  class="media-meta pull-right"><?php echo $msg['reply'];?></span>
                                             
                                        <?php     } ?>
                                            

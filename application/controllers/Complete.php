@@ -5,7 +5,7 @@
 
 
  {
-  parent::__construct();
+  parent::__construct(); 
   $this->load->model('common_model');
  } 
       public function index(){  
@@ -190,6 +190,47 @@
 
 
        }
+       public function signupexpert(){
+         $this->load->library('form_validation');
+      
+                if ($_POST) {
+                    $this->form_validation->set_rules('name', 'Name', 'required|min_length[3]|max_length[8]|trim');
+                    $this->form_validation->set_rules('password', 'Password', 'required|min_length[4]|max_length[8]|trim');
+                     $this->form_validation->set_rules('email', 'Email Address', 'required|trim|valid_email|is_unique[expert.email]');
+             if($this->form_validation->run())
+  {           $cpass= $_POST['cpassword'];
+              $pass= $_POST['password'];
+              if($cpass == $pass) {
+                $pass=  md5($pass);                                    
+                $data = array(
+                'name'=> $_POST['name'],
+                'email' => $_POST['email'],
+                'is_complete' => "Yes",
+                'is_verified' => "Yes",
+                'is_banned' => "No",
+                'userRole' => "expert",
+                'password' =>$pass
+              );
+        $data = $this->security->xss_clean($data);
+          $this->common_model->insert($data, 'users');
+          redirect(base_url() . 'auth', 'refresh');
+
+        }
+        else{
+          $this->session->set_flashdata('errmsg', "Password and confirm password must match");
+           $this->load->view('expert/signup');
+
+
+        }
+            }
+        else{ 
+           $this->load->view('expert/signup');
+
+        }
+      }
+
+
+       }
 }
-?>
+
 

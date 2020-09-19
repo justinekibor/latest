@@ -28,6 +28,8 @@ class Tenant extends CI_Controller {
              if($this->form_validation->run())
   {
             $verification_key= md5(rand());
+            $email = $_POST['email'];
+              $link = base_url()."complete/tenant/".$verification_key;
             $data = array(
                 'email' => $_POST['email'],
                 'created_at' => current_datetime(),
@@ -42,8 +44,41 @@ class Tenant extends CI_Controller {
                  $datal = $this->security->xss_clean($datal);
                 $this->common_model->insert($data, 'users');
                  $this->common_model->insert($datal, 'email');
-                  $this->session->set_flashdata('msg', 'Email Verifcation link sent Successfully');
-                redirect(base_url('agent/tenant'));
+     $from = $this->config->item('smtp_user');
+   $to =$email;
+ $subject = "Leasehouse Account completion";
+      //  $message = $this->input->post('message');
+   $config = Array(
+  'protocol' => 'smtp',
+  'smtp_host' => 'ssl://smtp.googlemail.com',
+  'smtp_port' => 465,
+  'smtp_user' => 'justinekibor98@gmail.com', // change it to yours
+  'smtp_pass' => 'kaplos4514', // change it to yours
+  'mailtype' => 'html',
+  'charset' => 'iso-8859-1',
+  'wordwrap' => TRUE
+);
+
+        $message = '<a href="'.$link.'">Click here to reset password</a>';
+        $this->load->library('email', $config);
+      $this->email->set_newline("\r\n");
+      $this->email->from('justinekibor98@gmail.com'); // change it to yours
+      $this->email->to($to);// change it to yours
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send())
+     {
+      $this->session->set_flashdata('msg', 'Email Verifcation link sent Successfully');
+       redirect(base_url('agent/tenant'));
+     }
+     else
+    {
+     $error_msg = $this->email->print_debugger();
+      $this->session->set_flashdata('server_msg', $error_msg);
+       redirect(base_url('agent/tenant'));
+    }
+
+                  
             }
                                               
              else {
@@ -123,7 +158,7 @@ class Tenant extends CI_Controller {
             'assigned_by' => $this->session->userdata('id')         
              );
             $houseData = array(
-                'tenant_id' => $house
+                'tenant_id' => $tenant
             );
             $balance= array(
               'tenant_id' => $tenant,

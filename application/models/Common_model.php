@@ -6,6 +6,105 @@ class Common_model extends CI_Model {
         $this->db->insert($table,$data);        
         return $this->db->insert_id();
     }
+        function normal_user($id){            
+        $this->db->select('*');
+        $this->db->from('expert');
+        $this->db->where('id',$id); 
+        $this->db->limit(1); 
+        $query = $this->db->get();   
+        
+        if($query->num_rows() == 1){                 
+           return $query->result();
+        }
+        else{
+            return false;
+        }
+    }
+         function normal_person($id){            
+        $this->db->select('*');
+        $this->db->from('emailHarvest');
+        $this->db->where('email',$id); 
+        $this->db->limit(1);
+        $query = $this->db->get();   
+        
+        if($query->num_rows() == 1){                 
+           return $query->result();
+        }
+        else{
+            return false;
+        }
+    } 
+       function get_vacated_tenant($id){            
+        $this->db->select('*');
+        $this->db->from('houses');
+        $this->db->where('status',"vacant"); 
+        $this->db->where('tenant_id',$id);
+        $this->db->limit(1);
+        $query = $this->db->get();   
+        
+        if($query->num_rows() == 1){                 
+           return $query->result();
+        }
+        else{
+            return false;
+        }
+    }
+    function normal_vacation($id){            
+        $this->db->select('*');
+        $this->db->from('vacation');
+        $this->db->where('email',$id); 
+        $this->db->limit(1);
+        $query = $this->db->get();   
+        
+        if($query->num_rows() == 1){                 
+           return $query->result();
+        }
+        else{
+            return false;
+        }
+    }
+      function very_normal_person($id){            
+        $this->db->select('email');
+        $this->db->from('users');
+        $this->db->where('email',$id); 
+        $this->db->limit(1);
+        $query = $this->db->get();   
+        
+        if($query->num_rows() == 1){                 
+           return $query->result();
+        }
+        else{
+            return false;
+        }
+    }
+          function very_vacating_person($id){            
+        $this->db->select('*');
+        $this->db->from('vacation');
+        $this->db->where('vacation_link',$id); 
+        $this->db->limit(1);
+        $query = $this->db->get();   
+        
+        if($query->num_rows() == 1){                 
+           return $query->result();
+        }
+        else{
+            return false;
+        }
+    }
+      function normal_vacated($id){            
+        $this->db->select('*');
+        $this->db->from('vacation');
+        $this->db->where('vacation_link',$id); 
+        $this->db->limit(1);
+        $query = $this->db->get();   
+        
+        if($query->num_rows() == 1){                 
+           return $query->result();
+        }
+        else{
+            return false;
+        }
+    }
 
     //-- edit function
     function edit_option($action, $id, $table, $Manipulation){
@@ -54,6 +153,15 @@ class Common_model extends CI_Model {
         $query = $query->result_array();  
         return $query;
     } 
+        function get_plot_id($id){
+        $this->db->select('plot_id');
+        $this->db->from('plots');
+        $this->db->where('agent_id', $id);
+        $query = $this->db->get();
+        $query = $query->result_array();  
+        return $query;
+    } 
+
      function select_receipt($id,$table, $Manipulation){
         $this->db->select();
         $this->db->from($table);
@@ -200,12 +308,45 @@ class Common_model extends CI_Model {
         $query = $query->result_array(); 
         return $query;
     }
+    function get_rooms_plot($id){
+        $this->db->select('p.*');
+        $this->db->where('a.agent_id',$id);
+       $this->db->select('c.plot_name as plot_name,p.plot_id as plot_id,');
+       $this->db->from('houses'.' p');
+       $this->db->join('plots c','c.plot_id = p.plot_id','LEFT');
+       $this->db->join('agents a','a.agent_id = c.agent_id','LEFT');
+        $this->db->order_by('p.house_id', 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+    }
+    function get_all_Plot_tenants($id){
+        $this->db->select('p.*');
+        $this->db->where('a.agent_id',$id);
+       $this->db->select('c.tenant_id as tenant_id,c.plot_id as plot_id,');
+       $this->db->from('tenant'.' p');
+       $this->db->join('houses c','c.tenant_id = p.tenant_id','LEFT');
+       $this->db->join('plots a','a.plot_id= c.plot_id','LEFT');
+        $this->db->order_by('p.tenant_id', 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+    }
         function get_all_objects($table, $Manipulation){
         $this->db->select('p.*');
        // $this->db->select('c.name as country, c.id as country_id');
         $this->db->from($table.' p');
        // $this->db->join('country c','c.id = u.country','LEFT');
         $this->db->order_by('p.'.$Manipulation, 'DESC');
+        $query = $this->db->get();
+        $query = $query->result_array();  
+        return $query;
+    }
+    function get_all_house_payment($id){
+        $this->db->select('p.*');
+        $this->db->from('payments'.' p');
+        $this->db->where('tenant_id',$id);
+       $this->db->order_by('p.'.'payment_id', 'DESC');
         $query = $this->db->get();
         $query = $query->result_array();  
         return $query;
@@ -299,8 +440,76 @@ class Common_model extends CI_Model {
         return $query;
     }
     function get_houses_bill($plot_id){
-        $query = $this->db->get_where('houses', array('plot_id'=>$plot_id, 'billed'=>"Yes"));
+         $this->db->select('p.*');
+        $this->db->where('plot_id',$plot_id);
+        $this->db->where('billed','Yes');
+       $this->db->select('b.tenant_id as tenant_id');
+       $this->db->from('houses p');
+       $this->db->join('balances b','b.tenant_id = p.tenant_id','RIGHT');
+        $this->db->order_by('p.house_id', 'DESC');
+        $query = $this->db->get();         
         return $query;
+    }
+        function get_billing_tenant($id){
+         $this->db->select('p.*');
+        $this->db->where('p.tenant_id',$id);
+       $this->db->select('b.tenant_id as tenant_id, b.auto_kplc as auto_kplc, b.auto_water as auto_water, n.water as water,n.garbage as garbage,n.kplc as kplc, n.others as others,');
+       $this->db->from('tenant p');
+       $this->db->join('houses b','b.tenant_id = p.tenant_id','RIGHT');
+       $this->db->join('balances n','n.tenant_id = p.tenant_id','RIGHT');
+        $this->db->order_by('p.tenant_id', 'DESC');
+        $query = $this->db->get();         
+        return $query;
+    }
+    function get_all_plot_bills($id){
+         $this->db->select('p.*');
+        $this->db->where('n.agent_id',$id);
+       $this->db->select('b.tenant_id as tenant_id, n.agent_id as agent_id,b.house_name as house_name');
+       $this->db->from('balances p');
+       $this->db->join('houses b','b.tenant_id = p.tenant_id','LEFT');
+       $this->db->join('agents n','n.plot_id = b.plot_id','LEFT');
+        $this->db->order_by('p.balance_id', 'DESC');
+        $query = $this->db->get();  
+         $query = $query->result_array();        
+        return $query;
+
+    }
+        function get_all_plot_expenses($id){
+         $this->db->select('p.*');
+        $this->db->where('underWho',$id);
+        $this->db->from('expenses p');
+        $this->db->order_by('p.expense_id', 'DESC');
+        $query = $this->db->get();  
+         $query = $query->result_array();        
+        return $query;
+
+    }
+        function get_all_plot_payment($id){
+         $this->db->select('p.*');
+        $this->db->where('n.agent_id',$id);
+       $this->db->select('b.tenant_id as tenant_id, n.agent_id as agent_id,b.house_name as house_name');
+       $this->db->from('payments p');
+       $this->db->join('houses b','b.tenant_id = p.tenant_id','LEFT');
+       $this->db->join('agents n','n.plot_id = b.plot_id','LEFT');
+        $this->db->order_by('p.payment_id', 'DESC');
+        $query = $this->db->get();  
+         $query = $query->result_array();        
+        return $query;
+
+    }
+
+        function get_all_plot_pending_payment($id){
+         $this->db->select('p.*');
+        $this->db->where('n.agent_id',$id);
+       $this->db->select('b.tenant_id as tenant_id, n.agent_id as agent_id,b.house_name as house_name');
+       $this->db->from('balances p');
+       $this->db->join('houses b','b.tenant_id = p.tenant_id','LEFT');
+       $this->db->join('agents n','n.plot_id = b.plot_id','LEFT');
+        $this->db->order_by('p.balance_id', 'DESC');
+        $query = $this->db->get();  
+         $query = $query->result_array();        
+        return $query;
+
     }
        function get_bills($house_id){
         $query = $this->db->get_where('bills', array('house_id'=>$house_id));
@@ -323,6 +532,19 @@ class Common_model extends CI_Model {
         $this->db->order_by('p.balance_id', 'DESC');
         $query = $this->db->get();         
         
+        return $query;
+    }
+            function get_vacating_balances($house_id){
+        $this->db->select('p.*');
+        $this->db->where('p.tenant_id',$house_id);
+       $this->db->select('lname as lname, fname as fname, b.deposit as depofixed, v.vacation_date as vacation_date');
+       $this->db->from('balances p');
+       $this->db->join('tenant c','c.tenant_id = p.tenant_id','LEFT');
+       $this->db->join('bills b','b.house_id = c.house_id','LEFT');
+       $this->db->join('vacation v','c.tenant_id = v.tenant_id','LEFT');
+        $this->db->order_by('p.balance_id', 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
         return $query;
     }
     function get_user_total(){
@@ -362,6 +584,98 @@ class Common_model extends CI_Model {
         $query = $query->result_array(); 
         return $query;
     }
+    function get_user($id){
+        $this->db->select();
+        $this->db->from('tenant');
+        $this->db->where('tenant_id', $id);
+        $this->db->order_by('tenant_id','ASC');
+        $query = $this->db->get();
+        $query = $query->result_array();  
+        return $query;
+    }
+   function get_all_vacant_rooms(){
+    $this->db->select('p.*');
+        $this->db->where('status','vacant');
+      //  $this->db->where('rent',0);
+         $this->db->select('c.plot_name as plot_name,c.plot_code as plot_code, r.Rent as rent');
+      $this->db->from('houses p');
+       $this->db->join('plots c','c.plot_id = p.plot_id','LEFT');
+       $this->db->join('bills r','r.house_id = p.house_id','RIGHT');
+        $this->db->order_by('p.vacation_date', 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+
+   }
+      function get_single_vacant($id){
+    $this->db->select('p.*');
+        $this->db->where('p.house_id',$id);
+         $this->db->select('c.plot_name as plot_name,c.plot_code as plot_code, r.Rent as rent, a.phone_no as phone_no');
+      $this->db->from('houses p');
+       $this->db->join('plots c','c.plot_id = p.plot_id','LEFT');
+       $this->db->join('bills r','r.house_id = p.house_id','LEFT');
+        $this->db->join('agents a','a.plot_id = p.plot_id','LEFT');
+        $this->db->order_by('p.vacation_date', 'DESC');
+         $query = $this->db->get();
+        $query = $query->row();  
+        return $query;
+   }
+        function get_all_testimonies($id, $table, $Manipulation){
+        $this->db->select('p.*');
+        $this->db->where('p.tenant_id',$id);
+       $this->db->select('fname as fname');
+       $this->db->from($table.' p');
+       $this->db->join('tenant c','c.tenant_id = p.tenant_id','LEFT');
+        $this->db->order_by('p.'.$Manipulation, 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+    }
+function get_all_testimonies_admin($id, $table, $Manipulation){
+        $this->db->select('p.*');
+       $this->db->select('fname as fname');
+       $this->db->from($table.' p');
+       $this->db->join('tenant c','c.tenant_id = p.tenant_id','LEFT');
+        $this->db->order_by('p.'.$Manipulation, 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+    }
+    function get_all_happy_clients(){
+        $this->db->select('p.*');
+        $this->db->where('status',"Approved");
+       $this->db->select('fname as fname, lname as lname, a.image as image');
+       $this->db->from('testimonials p');
+       $this->db->join('tenant c','c.tenant_id = p.tenant_id','LEFT');
+        $this->db->join('users a','a.id = p.tenant_id','LEFT');
+        $this->db->order_by('p.testimonial_id', 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+    }
+    function get_all_pendings(){
+        $this->db->select('p.*');
+        $this->db->where('status',!"vacant");
+       $this->db->select('fname as fname, lname as lname, a.tenant_id as tid, a.house_id as hid, c.Rent as rent, c.deposit as deposit, c.balance_id as balance_id, plot_name as plot_name');
+       $this->db->from('houses p');
+       $this->db->join('balances c','c.tenant_id = p.tenant_id','RIGHT');
+        $this->db->join('tenant a','a.tenant_id = p.tenant_id','LEFT');
+        $this->db->join('plots pl','pl.plot_id = p.plot_id','LEFT');
+        $this->db->order_by('p.tenant_id', 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+    }
+        function get_all_expenses(){
+        $this->db->select('p.*');
+       $this->db->from('expenses p');
+        $this->db->order_by('p.expense_id', 'DESC');
+        $query = $this->db->get();         
+        $query = $query->result_array(); 
+        return $query;
+    }
+
+
 
 
 

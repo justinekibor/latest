@@ -159,24 +159,33 @@
                       </ul>
                     </li>
                     <!--- beggining of caretaker-->
-                        <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Agents <span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">3</span></span></a>
+                        <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Bill <span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">2</span></span></a>
                         <ul class="nav nav-second-level">
-                             <li> <a href="<?php echo base_url('admin/agent') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">New Agent</span></a></li>
-                             <li> <a href="<?php echo base_url('admin/agent/assign') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Assign Agent</span></a></li>
-                        <li><a href="<?php echo base_url('admin/agent/all_agent_list') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">All Agents</span></a></li>
+                             <li> <a href="<?php echo base_url('agent/bills') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Bill tenant</span></a></li>
+                        <li><a href="<?php echo base_url('agent/bills/all_bills_list') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">All Bills</span></a></li>
                       </ul>
                     </li>
                     <!-- beggining of finace section--->
-                    <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Accounting Finance<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">4</span></span></a>
+                     <!--- beggining of caretaker-->
+                        <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Expenses<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">2</span></span></a>
                         <ul class="nav nav-second-level">
-                             <li> <a href="<?php echo base_url('admin/user') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Rent Collected</span></a></li>
-                             <li> <a href="<?php echo base_url('admin/user') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Pending Rent</span></a></li>
-                             <li> <a href="<?php echo base_url('admin/user') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Expenses</span></a></li>
-                             <li> <a href="<?php echo base_url('admin/user') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Balance sheet</span></a></li>
-                             <li> <a href="<?php echo base_url('admin/user/test') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">Test</span></a></li>
+                             <li> <a href="<?php echo base_url('agent/expense') ?>"><i class="fa fa-plus p-r-10"></i><span class="hide-menu">New Expense</span></a></li>
+                        <li><a href="<?php echo base_url('agent/expense/all_expense_list') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">All Expenses</span></a></li>
                       </ul>
                     </li>
-
+                    <!-- beggining of finace section--->
+                     <!--- beggining of caretaker-->
+                        <li> <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-product-hunt"></i> <span class="hide-menu">Accounting/Finance<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">5</span></span></a>
+                        <ul class="nav nav-second-level">
+                             <li> <a href="<?php echo base_url('agent/finance/paid_rent') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">Paid rent</span></a></li>
+                        <li><a href="<?php echo base_url('agent/finance/pending_rent') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">Pending Rent</span></a></li>
+                      
+                             <li> <a href="<?php echo base_url('agent/finance/paid_deposit') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">Paid deposits</span></a></li>
+                        <li><a href="<?php echo base_url('agent/finance/pending_deposit') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">Pending deposits</span></a></li>
+                        <li><a href="<?php echo base_url('agent/finance/sheet') ?>"><i class="fa fa-list p-r-10"></i><span class="hide-menu">Balance Sheet</span></a></li>
+                      </ul>
+                    </li>
+                    
 
 
 					

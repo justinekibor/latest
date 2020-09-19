@@ -1,16 +1,13 @@
   <!-- row -->
-               
-               
-                
-                <div class="row">
+                    <div class="row">
                     <!-- Left sidebar -->
                     <div class="col-md-12">
                         <div class="white-box">
                             <!-- row -->
                             <div class="row">
                                 <div class="col-lg-2 col-md-3  col-sm-12 col-xs-12 inbox-panel">
-                                    <div> <a href="#" class="btn btn-custom btn-block waves-effect waves-light">Compose</a>
-                                        <div class="list-group mail-list m-t-20"> <a href="<<?php echo base_url();?>/tenant/complaint" class="list-group-item active">Inbox </a>  </div>
+                                    <div> <a href="<?php echo base_url()?>tenant/complaint"  class="btn btn-custom btn-block waves-effect waves-light">Compose</a>
+                                        <div class="list-group mail-list m-t-20"> <a href="<?php echo base_url()?>tenant/complaint/complaints" class="list-group-item active">Inbox </a>  </div>
 
                                     </div>
                                 </div>

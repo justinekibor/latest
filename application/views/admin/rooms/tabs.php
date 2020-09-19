@@ -81,8 +81,7 @@
                                             <span class="text-danger"><?php echo form_error('floor'); ?></span>
 
                                         </div>
-                                                                             <div class="form-group">
-                    <label class="col-md-12" for="example-text">Type</label> 
+p                    <label class="col-md-12" for="example-text">Type</label> 
                     <div class="col-sm-12">
                                                 <select id="type" class="form-control custom-select" value="<?php echo set_value('type'); ?>" name="type" aria-invalid="false">
                                                     <option value="">Select</option>
@@ -161,7 +160,7 @@
                                             <div>
                                                 <span class="text-danger"><?php echo form_error('houses'); ?></span>
                                             </div>
-                                        </div>
+    </div>
                                              <div class="form-group">
                                             <label>Floor</label>
                                             <select class="form-control" id="f" disabled name="floor" required="">

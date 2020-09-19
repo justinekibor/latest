@@ -1,15 +1,76 @@
+ <script type="text/javascript">
+  var Valuename = <?php echo $expert->language;?>;
+  </script>
+<?php
+      $query = $this->common_model->normal_user($this->session->userdata('id'));
+      if(!$query){
+        $data= array(
+            'id' =>$this->session->userdata('id'),
+            'email' =>$this->session->userdata('email')
+        );
+        $this->common_model->insert($data, 'expert');
+      }
+      else if($expert->is_okey== "Yes"){
+        
+      echo'<script>
+       ';
+       echo'$(document).ready(function(){
+                                           swal({
+                                title: "Hi, We hope '.$expert->language.' is taking you to your destiny?",
+                                 text: "If NOT kindly keep us a reason else cancel",
+                               type: "input",
+                                 showCancelButton: true,
+                                closeOnConfirm: false,
+                                 inputPlaceholder: "kindly just write something here"
+                                }, function (inputValue) {
+                            if (inputValue === false) return false;
+                                if (inputValue === "") {
+                             swal.showInputError("You need to write something!");
+                                 return false
+                                            }
+                                            $.ajax({
+                                 url:"'.base_url().'expert/model",
+                                type:"POST",  
+                                data:{inputValue:inputValue,nameValue:Valuename},
+                                asyn : true,
+                                dataType  : "json",
+                                       success: function (data) {
+                                        swal("Wow!", "Thanks for your feedback.\nwhen you dont create things, you become defined by your tastes rather than ability ", "success");
+
+                                          }
+                                          });
+                             
+                                });});';
+     echo ' </script>';
+      
+        }
+         else if($expert->is_okey== "No"){
+        
+      echo'<script>';
+       echo'$(document).ready(function(){
+        swal("welcome again", "We noticed you were fit for '.$expert->language.'\nAnd this was your reason of not learning it\n`'.$expert->reason.'`\nWe dont think this can make you not learn '.$expert->language.'\nBut you can still explore more, We got have alot of options for you","info");
+       });';
+     echo ' </script>';
+      
+        }
+      
+ ?>
                 <div class="row">
+                    
                     <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Slide show with owl Carousel</div>
+                        <div class="panel panel-default"> 
+                            <div class="panel-heading" style="background: wheat;">Choose your Favourite Language here!
+ <button class="btn btn-warning pull pull-right"><a href="<?php echo base_url()?>/language/dashboard">Back</a></button>
+                            </div>
                             <div class="panel-wrapper p-b-10 collapse in">
                                 <div id="owl-demo" class="owl-carousel owl-theme">
+                                    <div class="item"><img src="<?php echo base_url(); ?>leasehouse/plugins/images/heading-bg/slide3.jpg" alt="Owl Image"></div>
                                     <div class="item"><img src="<?php echo base_url(); ?>leasehouse/plugins/images/heading-bg/slide2.jpg" alt="Owl Image"></div>
                                     <div class="item"><img src="<?php echo base_url(); ?>leasehouse/plugins/images/heading-bg/slide3.jpg" alt="Owl Image"></div>
                                     <div class="item"><img src="<?php echo base_url(); ?>leasehouse/plugins/images/heading-bg/slide4.jpg" alt="Owl Image"></div>
                                     <div class="item"><img src="<?php echo base_url(); ?>leasehouse/plugins/images/heading-bg/slide6.jpg" alt="Owl Image"></div>
                                     <div class="item"><img src="<?php echo base_url(); ?>leasehouse/plugins/images/heading-bg/slide1.jpg" alt="Owl Image"></div>
-                                    <div class="item"><img src="<?php echo base_url(); ?>leasehouse/plugins/images/heading-bg/slide3.jpg" alt="Owl Image"></div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -394,7 +455,7 @@
                                    <!----cpp -------------->
                                     <!-----csharp --> 
                                     <div class="form-group" id="csharp">
-                                        <label class="text text-success">C#<br/>
+                                        <label  class="text text-success">C#<br/>
                                             A popular choice for enterprise to create websites and Windows application using .NET framework
                                         Similar to Java in basic syntax and some features
                                         </label>
@@ -448,7 +509,8 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div>
-                <div id="t"></div>
+                <input type="text" name="checked" id="checked">
+                
 <head>
    
 </head>
@@ -485,6 +547,7 @@ body{
       $("#think").hide();
       $("#auto").hide();
       $("#prefer").hide();
+       $("#checked").hide();
 
 
     });
@@ -492,6 +555,7 @@ body{
  <script type="text/javascript">
         function OnChangeRadio (radio) {
             var value =radio.value;
+            var nameValue = document.getElementById("checked").value;
             jQuery.ajax({
                                 url:"<?php echo base_url();?>expert/base",
                                 type:"POST",  
@@ -499,11 +563,31 @@ body{
                                 asyn : true,
                                 dataType  : 'json',
                                success:function(data){
-                                if(data.sawa == "yes"){
-                                    swal("Nice One!", "We just knew it. Iam certain you will like it. You will proof us right.We wish all the best.!", "success")
+                                if(data.language == "yes"){
+                                 
+                     setTimeout(function() {
+                        swal({
+                      title: "Nice one!",
+                      text: "We are sure this one will take you to your destiny",
+                      type: "success"
+                           }, function() {
+                                $.ajax({
+                                 url:"<?php echo base_url();?>expert/okeymodel",
+                                type:"POST",  
+                                data:{nameValue:nameValue },
+                                asyn : true,
+                                dataType  : 'json',
+                                       success: function (data) {
+                                        window.location ="<?php echo base_url();?>/language/dashboard";
+                                          }
+                                          });
+                     
+                      });
+                     }, 1000);
 
+                                     
                                 }
-                                else if(data.sawa=="no"){
+                                else if(data.language=="no"){
                                     swal({
                                 title: "Okey it is fine!, Could you mind telling us why?",
                                  text: "This will help us improve our services",
@@ -520,17 +604,17 @@ body{
                                             $.ajax({
                                  url:"<?php echo base_url();?>expert/model",
                                 type:"POST",  
-                                data:{inputValue:inputValue},
+                                data:{inputValue:inputValue,nameValue:nameValue },
                                 asyn : true,
                                 dataType  : 'json',
                                        success: function (data) {
-                                        swal("Wow!", "Thanks for your feedback.when you don't create things, you become defined by your tastes rather than ability " + data, "success");
+                                        swal("Wow!", "Thanks for your feedback.when you don't create things, you become defined by your tastes rather than ability ", "success");
 
                                           }
                                           });
                              
                                 });
-
+                                  
                                 }
                                 else{
                                $('#'+data.nope[0]).hide();
@@ -554,6 +638,8 @@ body{
                                // alert(data.nope.length);
                                 $('#'+data.sawa).show();
 
+                                 $('#checked').val(data.sawa);
+                            
                                 
                                 }
                                 

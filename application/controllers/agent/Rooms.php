@@ -12,12 +12,12 @@ class Rooms extends CI_Controller {
 
     public function index()
     {
-        $data = array();
-        $data['page_title'] = 'Add Room';
-        $data['plots'] = $this->common_model->get_all_objects('plots', "plot_id");
-        $data['main_content'] = $this->load->view('admin/rooms/tabs', $data, TRUE);
-        $data['notification'] = $this->common_model->get_notification();
-        $this->load->view('admin/index', $data);
+     $data['page_title'] = 'Plot rooms';
+        $data['rooms'] = $this->common_model->get_rooms_plot($this->session->userdata('id'));
+       // $data['country'] = $this->common_model->select('country');
+      //  $data['count'] = $this->common_model->get_user_total();
+        $data['main_content'] = $this->load->view('agent/rooms/rooms', $data, TRUE);
+        $this->load->view('agent/index', $data);
     }
  
     //-- add new user by admin
@@ -64,7 +64,7 @@ class Rooms extends CI_Controller {
     }
     public function all_room_list()
     {
-        $data['page_title'] = 'All Registered rooms';
+        $data['page_title'] = 'Plot rooms';
         $data['rooms'] = $this->common_model->get_room_objects('houses','house_id',$this->session->userdata('id'));
        // $data['country'] = $this->common_model->select('country');
       //  $data['count'] = $this->common_model->get_user_total();

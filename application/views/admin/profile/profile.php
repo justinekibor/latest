@@ -50,7 +50,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="user-btm-box">
+                            <div class="user-btn-box">
                                   <div class="col-md-12 col-sm-12 text-center">
                                     <h2 id="timer" style="color: green"></h2>
 
@@ -66,12 +66,12 @@
                                 <li role="presentation" class="nav-item"><a href="#home1" class="nav-link" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Update profile</span></a></li>
                             </ul>
                             <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade active in" id="profile1">
-                                    <div class="steamline">
-                                        <div class="sl-item">
-                                            <div class="sl-left"> <img src="<?php echo base_url(); ?>optimum/plugins/images/users/genu.jpg" alt="user" class="img-circle" /> </div>
-                                            <div class="sl-right">
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade active in" id="profile1">
+  <div class="steamline">
+  <div class="sl-item">
+   <div class="sl-left"> <img src="<?php echo base_url(); ?>optimum/plugins/images/users/genu.jpg" alt="user" class="img-circle" /> </div>
+       <div class="sl-right">
 
                                                 </div>
                                             </div>
@@ -81,33 +81,10 @@
                                         <hr>
                                     </div>
                                
-                        
-                        
-                                <div role="tabpanel" class="tab-pane fade" id="home1">
-                                          <form name="bill" id="bill">
-                                        
-                                             <div class="form-group"> 
-                                  <label class="col-md-12" for="example-text">Email</label>
-                                    <div class="col-sm-12">
-                                            <input type="email" id="email" name="email" value="<?php echo $prof['email'];?>" class="form-control" autocomplete="off">
-                                        </div>
-                                        <span class="text-danger"><?php echo form_error('email'); ?></span>
-                                    </div>
-                                     <div class="form-group"> 
-                                  <label class="col-md-12" for="example-text">Password</label>
-                                    <div class="col-sm-12">
-                                            <input type="Password" value="<?php echo $prof['password'];?>" id="Password" name="Password" class="form-control" autocomplete="off">
-                                        </div>
-                                        <span class="text-danger"><?php echo form_error('password'); ?></span>
-                                    </div>
-                                     <div class="form-group"> 
-                                  <label class="col-md-12" for="example-text">Confirm password</label>
-                                    <div class="col-sm-12">
-                                            <input type="password" value="<?php echo $prof['password'];?>" id="cpass" name="cpass"  class="form-control" autocomplete="off">
-                                        </div>
-                                        <span class="text-danger"><?php echo form_error('cpass'); ?></span>
-                                    </div>
-                                     <div class="col-sm-6 ol-md-6 col-xs-12">
+      <div role="tabpanel" class="tab-pane fade" id="home1">
+         <form name="roomsform" id="roomsform" method="post">
+]                                   
+      <div class="col-sm-6 ol-md-6 col-xs-12">
                         <div class="white-box">
                             <label for="input-file-disable-remove">Image</label>
                             <input type="file" id="input-file-disable-remove image_file" class="dropify" data-default-file="<?php echo $prof['image'];?>" data-show-remove="false" name="image_file" />
@@ -126,55 +103,45 @@
                             </div>
                         </div>
                     </div>
-                    
+                     
                 </div>
               </div>
             </div>
          <?php  ?>
 
                <script>
-                              $(document).on('submit', '#bill', function(event){
+                              $(document).on('submit', '#roomsform', function(event){
               event.preventDefault();
-                 var name = $('#email').val();
-            var plot= $('#password').val();
-             var type= $('#cpass').val();
+          var form_data = $(this).serialize();
         if($('#image_file').val() == '')  
            {  
                 alert("Please Select the File");  
            } 
-           else{ 
-         
-        if(name != '' && plot!='' && type!='')
-        {
+
             $.ajax({
-                url:"<?php echo base_url(); ?>admin/profile/update/"<?php echo $prof['id'];?>
+                url:"<?php echo base_url(); ?>admin/profile/update",
                     method:"POST",  
-                     data:new FormData(this),
-                     dat: {"id": <?php echo $prof['id'];?>}  ,
+                     data:new FormData(this),  
                      contentType: false,   
                      cache: false,  
                      processData:false,  
-                success:function(data)
+                success:function(data) 
                 {
-                        
+                          swal({
+                       title: "Good job!", 
+                        text: "You clicked the button!", 
+                        tyepe: "success"}).then(function(){
+                            window.location.href ="<?php echo base_url(); ?>admin/agent"; 
 
                          
-            alert("good");
+                        });
 
                 }
             });
-        }
-        else
-        {
-            swal("Alert!", "All fileds are required", "warning");
-        }
-    }
-    }); 
 
-                     </script>
-                     <script>
-
-                    var timestamp = '<?=time();?>';
+    
+    });  
+        var timestamp = '<?=time();?>';
                  function updateTime(){
                $('#timer').html(Date(timestamp));
                timestamp++;

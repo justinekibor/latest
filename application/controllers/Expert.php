@@ -14,11 +14,12 @@ class Expert extends CI_Controller {
     {
         $data = array();
         $data['page_title'] = 'EXpert System';
-       // $data['plots'] = $this->common_model->get_all_objects('plots', "plot_id");
+       $data['expert'] = $this->common_model->get_single_object_info($this->session->userdata('id'), 'expert','id');
        $data['main_content'] =$this->load->view('expert/expert', $data, TRUE);
-        //$data['notification'] = $this->common_model->get_notification();
+        //$data['ification'] = $this->common_model->get_notification();
         $this->load->view('expert/index', $data);
     }
+           
         public function base(){
         $val = $value=  $this->input->post('value', TRUE);
         if($val== "kids" || $val== "dontknow"){
@@ -59,16 +60,15 @@ class Expert extends CI_Controller {
         }
         else if($val== "yes"){
           $data= array(
-            'sawa'=>"yes",
-            'nope'=>"no"
+            'language'=>"yes",
+  
           );
          
         echo  json_encode($data);
 
         }
         else if($val== "no"){
-          $data['sawa'] ="no";
-          $data['nope']= "yes";
+          $data['language'] ="no";
         echo  json_encode($data);
 
         } 
@@ -299,7 +299,30 @@ class Expert extends CI_Controller {
 }                                                                       
 public function model(){
   $inputValue = $this->input->post('inputValue', TRUE);
-  $data= $inputValue;
+  $language = $this->input->post('nameValue', TRUE);
+  $data = array(
+                'reason' => $inputValue,
+                'language' => $language,
+                 'is_okey' => "No"
+                
+            ); 
+            $data = $this->security->xss_clean($data);
+            $this->common_model->edit_option($data, $this->session->userdata('id'), 'expert','id');
+  
+   echo  json_encode($data);
+
+}
+public function okeymodel(){
+  $language = $this->input->post('nameValue', TRUE);
+  $data = array(
+                'reason' => "very okey",
+                'language' => $language,
+                 'is_okey' => "Yes"
+                
+            ); 
+            $data = $this->security->xss_clean($data);
+            $this->common_model->edit_option($data, $this->session->userdata('id'), 'expert','id');
+  
    echo  json_encode($data);
 
 }

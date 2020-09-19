@@ -13,14 +13,24 @@
 
                 </div>
                 <div class="panel-body table-responsive">
-                                   <?php $msg = $this->session->flashdata('msg'); ?>
+                <?php $msg = $this->session->flashdata('msg'); ?>
             <?php if (isset($msg)): ?>
              <script>
                  $(document).ready(function(){
                  swal("Success", "Verification Link send successfully", "success");
                     });
              </script>
-            <?php endif ?>
+            <?php endif ?> 
+            <!------- ------------>
+             <?php $server_msg = $this->session->flashdata('server_msg'); ?>
+            <?php if (isset($server_msg)): ?>
+             <script>
+                 $(document).ready(function(){
+                 swal("Oops", "No internet connection", "warning");
+                    });
+             </script>
+            <?php endif ?> 
+            <!--------------------->
 
             <?php $error_msg = $this->session->flashdata('error_msg'); ?>
             <?php if (isset($error_msg)): ?>
